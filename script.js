@@ -9,7 +9,7 @@ for (var i = 0; i < removeProductButons.length; i++) {
 
 const quantityInputs = document.getElementsByClassName('product-qtd-input')
 for (var i = 0; i < quantityInputs.length; i++) {
-    quantityInputs[i].addEventListener('change', updateTotal)
+    quantityInputs[i].addEventListener('change', checkIfInputIsNull)
 }
 
 
@@ -19,6 +19,13 @@ for (var i = 0; i < addTocastButtons.length; i++) {
 }
 
 
+function checkIfInputIsNull(event) {
+    if (event.target.value == '0') {
+        event.target.parentElement.parentElement.remove()
+    }
+    updateTotal()
+}
+
 function addProductTocart(event) {
     const button = event.target
     const protuctInfos = button.parentElement.parentElement
@@ -26,6 +33,15 @@ function addProductTocart(event) {
     const productTitle = protuctInfos.getElementsByClassName('product-title')[0].innerText
     const productPrice = protuctInfos.getElementsByClassName('product-price')[0].innerText
     
+    const productCartName = document.getElementsByClassName('cart-product-title')
+    for (var i = 0; i < productCartName.length; i++) {
+        if (productCartName[i].innerText == productTitle) {
+            productCartName[i].parentElement.parentElement.getElementsByClassName('product-qtd-input')[0].value ++
+            updateTotal()
+            return
+        } 
+    }
+
     let newCartProduct = document.createElement('tr')
     newCartProduct.classList.add('cart-product')
 
@@ -46,6 +62,9 @@ function addProductTocart(event) {
 
     const tableBody = document.querySelector('.cart-table tbody')
     tableBody.append(newCartProduct)
+    updateTotal()
+    newCartProduct.getElementsByClassName('product-qtd-input')[0].addEventListener('change', checkIfInputIsNull)
+    newCartProduct.getElementsByClassName('remove-product-button')[0].addEventListener('click', removeProduct )
 }
 
 function removeProduct(event) {
