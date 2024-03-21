@@ -27,16 +27,19 @@ function makePurchase(){
         alert('Seu carrinho está vasio!')
     } else {
         alert(
-            `
+          `
             Obrigado pela sua compra!
             Valor do pedido: R$${totalAmount.toFixed(2)}
             Volte sempre :)
-            `
+          `
         )
+        totalAmount == '0,00'
     }
     document.querySelector('.cart-table tbody').innerHTML = ''
     updateTotal()
+    
 }
+
 
 
 
