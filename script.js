@@ -1,6 +1,6 @@
 
 
-
+totalAmount = '0,00'
 const removeProductButons = document.getElementsByClassName('remove-product-button')
 for (var i = 0; i < removeProductButons.length; i++) {
     removeProductButons[i].addEventListener('click',removeProduct)
@@ -17,6 +17,27 @@ const addTocastButtons = document.getElementsByClassName('button-hover-backgroun
 for (var i = 0; i < addTocastButtons.length; i++) {
     addTocastButtons[i].addEventListener('click',addProductTocart)
 }
+
+
+const purchaseButton = document.getElementsByClassName('purchase-button')[0]
+purchaseButton.addEventListener('click', makePurchase)
+
+function makePurchase(){
+    if (totalAmount == '0,00') {
+        alert('Seu carrinho está vasio!')
+    } else {
+        alert(
+            `
+            Obrigado pela sua compra!
+            Valor do pedido: R$${totalAmount.toFixed(2)}
+            Volte sempre :)
+            `
+        )
+    }
+    document.querySelector('.cart-table tbody').innerHTML = ''
+    updateTotal()
+}
+
 
 
 function checkIfInputIsNull(event) {
@@ -73,14 +94,14 @@ function removeProduct(event) {
 }
 
 function updateTotal() {
-    let totalAmount = 0
-const cartProducts = document.getElementsByClassName('cart-product')
-for (var i = 0; i < cartProducts.length; i++) {
-    //console.log(cartProducts[i])
-    const productPrice = cartProducts[i].getElementsByClassName('cart-product-price')[0].innerText.replace('R$','').replace(',','.')
-    const productQuantity = cartProducts[i].getElementsByClassName('product-qtd-input')[0].value
-    
-    totalAmount += productPrice * productQuantity
+    totalAmount = 0
+    const cartProducts = document.getElementsByClassName('cart-product')
+    for (var i = 0; i < cartProducts.length; i++) {
+        //console.log(cartProducts[i])
+        const productPrice = cartProducts[i].getElementsByClassName('cart-product-price')[0].innerText.replace('R$','').replace(',','.')
+        const productQuantity = cartProducts[i].getElementsByClassName('product-qtd-input')[0].value
+        
+        totalAmount += productPrice * productQuantity
 }
 document.querySelector('.cart-total-container span').innerText = 'R$' + totalAmount.toFixed(2).replace('.',',')
 }
